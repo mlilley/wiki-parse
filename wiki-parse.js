@@ -7,9 +7,7 @@ const filename = process.argv[2];
 const readStream = fs.createReadStream(filename);
 const xmlParser = new XmlStream(readStream);
 
-let n = 0;
 xmlParser.on('updateElement: page', el => {
-    ++n > 100 ? process.exit() : true
     if (!el.revision || !el.revision.text || !el.revision.text.$text) return;
 
     const wiki = wtf.parse(el.revision.text.$text);
