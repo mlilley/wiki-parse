@@ -35,3 +35,7 @@ Easiest way to do this is via NVM:
    ```
    node wiki-parse.js /path/to/wikipedia.enwiki-20170820-pages-articles-multistream.xml | less
    ```
+
+## Sample Output
+
+See `SAMPLE.txt` for example output for the 1st few dozen wikipedia articles.
