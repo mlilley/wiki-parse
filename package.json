@@ -1,0 +1,15 @@
+{
+  "name": "wiki-parse",
+  "version": "1.0.0",
+  "description": "",
+  "main": "wiki-parse.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mlilley/wiki-parse.git"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "wtf_wikipedia": "^2.4.2",
+    "xml-stream": "^0.4.5"
+  }
+}
