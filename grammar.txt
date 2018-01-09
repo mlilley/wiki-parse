@@ -1,0 +1,51 @@
+/* strip all instances of '', ''', ''''' */
+/* then strip all \n */
+
+document      ::= ( txt | link | directive | bold | ref | br )*
+
+/* directives */
+
+directive     ::= "{{" dirtxt (dirtxt | directive)* "}}"
+dirtxt        ::= DIRCHR+
+DIRCHR        ::= [#x20-#x7A] | #x7C | [#x7E-#xFFFF]
+
+/* links */
+
+link          ::= "[[" linktarget "]]" | "[[" linktitle "|" linktarget "]]"
+linktitle     ::= ( LINKTXTCHR+ | txtesc | htmlent )+
+linktarget    ::= LINKTXTCHR+
+LINKTXTCHR    ::= [#x20-#x21] | [#x23-#x25] | [#x27-#x3B] | #x3D | [#x3F-#x5A] | [#x5E-#x7A] | [#x7E-#xFFFF] 
+
+/* tags */
+
+br            ::= "<br>" | "<br" WS* "/>"
+
+bold          ::= BEGIN_BOLD txt END_BOLD
+BEGIN_BOLD    ::= "<b>"
+END_BOLD      ::= "</b>"
+
+ref           ::= BEGIN_REF reftxt* END_REF
+reftxt        ::= REFTXT
+REFTXT        ::= txt
+BEGIN_REF     ::= "<ref>" | "<ref" WS+ ( REFCHR | txtesc )* ">"
+END_REF       ::= "</ref>"
+REFCHR        ::= [#x20-#x3B] | #x3D | [#x3F-#x5B] | [#x5D-#xFFFF]
+
+/* txt */
+
+txt           ::= ( TXTCHRS | txtesc | htmlent )+
+
+txtesc        ::= "\\\\" | "\\" #x22 | "\\&" | "\\<" | "\\>" | "\\[" | "\\]" | "\\{" | "\\}"
+TXTCHRS       ::= ( [#x20-#x21] | [#x23-#x25] | [#x27-#x3B] | #x3D | [#x3F-#x5A] | [#x5E-#x7A] | #x7C | [#x7E-#xFFFF] )+ 
+
+htmlent       ::= "&" HTMLENTNAME ";" | "&" HTMLENTHEX ";" | "&" HTMLENTORD ";"
+HTMLENTNAME   ::= [a-zA-Z0-9]+
+HTMLENTHEX    ::= "#x" [a-fA-F0-9]+
+HTMLENTORD    ::= "#" [0-9]+
+
+/* misc */
+
+WS            ::= [#x20#x09#x0A#x0D]+
+nl            ::= "\\n"
+np            ::= "\\n\\n"
+

@@ -1,17 +1,19 @@
 const fs = require('fs');
-const wtf = require('wtf_wikipedia');
-const util = require('util');
-const XmlStream = require('xml-stream');
+const ebnf = require('ebnf');
 
-const filename = process.argv[2];
-const readStream = fs.createReadStream(filename);
-const xmlParser = new XmlStream(readStream);
+const grammarFilename = process.argv[2];
+const grammar = fs.readFileSync(grammarFilename);
+const parser = ebnf.Grammars.W3C.Parser(grammar);
+let language = "";
 
-xmlParser.on('updateElement: page', el => {
-    if (!el.revision || !el.revision.text || !el.revision.text.$text) return;
-
-    const wiki = wtf.parse(el.revision.text.$text);
-    if (!wiki.type == 'page' || !wiki.sections || !wiki.sections[0] || !wiki.sections[0].sentences || !wiki.sections[0].sentences[0] || !wiki.sections[0].sentences[0].text) return;
-
-    console.log(wiki.sections[0].sentences[0].text);
+process.stdin.setEncoding('utf8');
+process.std.on('readable', () => {
+    const chunk = process.stdin.read();
+    if (chunk !== null) {
+        language += chunk;
+    }
+});
+process.std.on('end', () => {
+    const ast = parser.getAST(language);
+    console.log(ast);
 });

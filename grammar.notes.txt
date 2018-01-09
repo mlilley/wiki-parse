@@ -1,0 +1,32 @@
+
+
+                  spc   ;  (<) =  (>)  ?    Z   (\)  ^     ...  
+refchr      ::= [#x20-#x3B] | #x3D | [#x3F-#x5B] | [#x5D-#xFFFF]
+
+
+                  spc   z  ({) |  (})  ~     ...  
+dirtxt      ::= [#x20-#x7A] | #x7C | [#x7E-#xFFFF]
+
+                  spc   !  (")  #     %  (&)  '     ;  (<) =  (>)  ?    Z  ([\]) ^     z ({|}) ~     ...  
+linktxt     ::= [#x20-#x21] | [#x23-#x25] | [#x27-#x3B] | #x3D | [#x3F-#x5A] | [#x5E-#x7A] | [#x7E-#xFFFF]
+
+                  spc   !  (")  #     %  (&)  '     ;  (<) =  (>)  ?    Z  ([\]) ^     z  ({) |  (})  ~     ...  
+txt         ::= [#x20-#x21] | [#x23-#x25] | [#x27-#x3B] | #x3D | [#x3F-#x5A] | [#x5E-#x7A] | #x7C | [#x7E-#xFFFF]
+
+txtescape   ::= "\\" | "\" #x22 | "\&" | "\<" | "\>" | "\[" | "\]" | "\{" | "\}"
+
+htmlent     ::= "&" HTMLENTNAME ";" | "&" HTMLENTHEX ";" | "&" HTMLENTORD ";"
+HTMLENTNAME ::= [a-zA-Z0-9]+
+HTMLENTHEX  ::= "#x" [a-fA-F0-9]+
+HTMLENTORD  ::= "#" [0-9]+
+
+tagtext ::= [#x20-#x21] | [#x23-#x25] | [#x27-#x3B] | #x3D | [#x3F-#x5A] | [#x5E-#x7A] | #x7C | [#x7E-#xFFFF]
+
+inside [tags] & is ok!
+              | is not
+              = is not
+
+              \    "       
+            #x5C (#x22 | #x5C | #x2F | #x62 | #x66 | #x6E | #x72 | #x74 | #x75 HEXDIG HEXDIG HEXDIG HEXDIG))* '"'
+HEXDIG ::= [a-fA-F0-9]
+

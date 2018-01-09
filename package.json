@@ -1,6 +1,6 @@
 {
   "name": "wiki-parse",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "main": "wiki-parse.js",
   "repository": {
@@ -9,7 +9,6 @@
   },
   "license": "MIT",
   "dependencies": {
-    "wtf_wikipedia": "^2.4.2",
-    "xml-stream": "^0.4.5"
+    "ebnf": "^1.5.0"
   }
 }
